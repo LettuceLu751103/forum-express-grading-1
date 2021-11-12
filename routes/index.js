@@ -40,7 +40,16 @@ module.exports = (app) => {
   // post data to create restaurant
   app.post('/admin/restaurants', authenticatedAdmin, adminController.postRestaurant)
 
+  // get specific restaurant page
   app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant)
+
+  // get specific restuarnt edit page
+  app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
+
+  // modify restaurant data
+  app.put('/admin/restaurants/:id', authenticatedAdmin, adminController.putRestaurant)
+
+
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)

@@ -6,6 +6,8 @@ const port = 3000
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
+const methodOverride = require('method-override')
+
 app.use(express.urlencoded({ extended: true }))
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
@@ -25,7 +27,7 @@ app.use((req, res, next) => {
   next()
 })
 
-
+app.use(methodOverride('_method'))
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
