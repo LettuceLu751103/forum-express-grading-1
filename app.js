@@ -3,6 +3,9 @@ const handlebars = require('express-handlebars') // 引入 handlebars
 const db = require('./models')
 const app = express()
 const port = process.env.PORT || 3000
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
