@@ -34,6 +34,13 @@ module.exports = (app) => {
   // 在 /admin/restaurants 底下則交給 adminController.getRestaurants 處理
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
 
+  // render create restaurant route
+  app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
+
+  // post data to create restaurant
+  app.post('/admin/restaurants', authenticatedAdmin, adminController.postRestaurant)
+
+
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
 
