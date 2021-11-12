@@ -25,7 +25,7 @@ const adminController = {
 
     const { file } = req // equal to const file = req.file
     if (file) {
-      imgur.setClientID(process.env.IMGUR_CLIENT_ID);
+      imgur.setClientID(IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
         return Restaurant.create({
           name: req.body.name,
@@ -78,7 +78,7 @@ const adminController = {
 
     const { file } = req
     if (file) {
-      imgur.setClientID(process.env.IMGUR_CLIENT_ID);
+      imgur.setClientID(IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
         return Restaurant.findByPk(req.params.id)
           .then((restaurant) => {
