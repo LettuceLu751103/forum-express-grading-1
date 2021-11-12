@@ -49,6 +49,7 @@ module.exports = (app) => {
   // modify restaurant data
   app.put('/admin/restaurants/:id', authenticatedAdmin, adminController.putRestaurant)
 
+  app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
 
 
   app.get('/signup', userController.signUpPage)
