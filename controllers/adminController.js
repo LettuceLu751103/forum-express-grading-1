@@ -7,7 +7,6 @@ const adminController = {
   getRestaurants: (req, res) => {
     return Restaurant.findAll({ raw: true })
       .then(restaurants => {
-        console.log(restaurants)
         return res.render('admin/restaurants', { restaurants: restaurants })
       })
   },
@@ -58,7 +57,6 @@ const adminController = {
     console.log(req.params.id)
     Restaurant.findByPk(req.params.id, { raw: true })
       .then(restaurant => {
-        console.log(restaurant)
         res.render('admin/restaurant', { restaurant: restaurant })
       })
   },
@@ -67,7 +65,6 @@ const adminController = {
     console.log(req.params.id)
     Restaurant.findByPk(req.params.id, { raw: true })
       .then(restaurant => {
-        console.log(restaurant)
         res.render('admin/create', { restaurant: restaurant })
       })
   },
