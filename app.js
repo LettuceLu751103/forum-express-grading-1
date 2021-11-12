@@ -7,12 +7,14 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
 
 app.use(express.urlencoded({ extended: true }))
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars') // 設定使用 Handlebars 做為樣板引擎
-
+app.use('/upload', express.static(__dirname + '/upload'))
 
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(flash())
