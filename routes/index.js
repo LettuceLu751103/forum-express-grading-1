@@ -6,6 +6,7 @@ const passport = require('../config/passport')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 const helpers = require('../_helpers')
+const categoryController = require('../controllers/categoryController.js')
 
 
 module.exports = (app) => {
@@ -65,5 +66,9 @@ module.exports = (app) => {
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
 
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
+
+  // categories related
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+  app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
 
 }
