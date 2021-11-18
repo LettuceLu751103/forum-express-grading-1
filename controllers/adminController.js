@@ -5,12 +5,17 @@ const fs = require('fs')
 const imgur = require('imgur-node-api')
 const { userInfo } = require('os')
 const IMGUR_CLIENT_ID = '0f45c06002b9fdc'
-
+const Category = db.Category
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({ raw: true })
+    return Restaurant.findAll({
+      raw: true,
+      nest: true,
+      include: [Category]
+    })
       .then(restaurants => {
+        console.log(restaurants)
         return res.render('admin/restaurants', { restaurants: restaurants })
       })
   },
@@ -57,10 +62,12 @@ const adminController = {
     }
   },
   getRestaurant: (req, res) => {
-    console.log(req.params.id)
-    Restaurant.findByPk(req.params.id, { raw: true })
+    Restaurant.findByPk(req.params.id, {
+      include: [Category]
+    })
       .then(restaurant => {
-        res.render('admin/restaurant', { restaurant: restaurant })
+        console.log(restaurant.toJSON())
+        res.render('admin/restaurant', { restaurant: restaurant.toJSON() })
       })
   },
 
