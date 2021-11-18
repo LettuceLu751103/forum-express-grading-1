@@ -1,11 +1,32 @@
-const express = require('express')
-
-const router = express.Router()
-
+const db = require('../models')
+const Restaurant = db.Restaurant
+const Category = db.Category
 
 const restController = {
   getRestaurants: (req, res) => {
-    return res.render('restaurants')
+    Restaurant.findAll({
+      include: [Category]
+    }).then(restaurants => {
+      // console.log(restaurants)
+      const data = restaurants.map(r => ({
+        ...r.dataValues,
+        description: r.dataValues.description.substring(0, 50),
+        categoryName: r.Category.name
+      }))
+      return res.render('restaurants', { restaurants: data })
+    })
+  },
+
+  getRestaurant: (req, res) => {
+    Restaurant.findByPk(
+      req.params.id,
+      {
+        include: [Category]
+      })
+      .then(restaurant => {
+        return res.render('restaurant', { restaurant: restaurant.toJSON() })
+      })
   }
+
 }
 module.exports = restController
