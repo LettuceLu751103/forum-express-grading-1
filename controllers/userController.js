@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const fs = require('fs')
+
+
 
 const userController = {
 
@@ -48,17 +51,59 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    console.log('getUser')
-    console.log(req.user)
-    res.render('user', {})
+    const id = req.params.id
+    return User.findByPk(id)
+      .then(user => {
+        // console.log(user.toJSON())
+        return res.render('profile', { user: user.toJSON() })
+      })
+
   },
 
   editUser: (req, res) => {
-    res.render('editUser', {})
+    const id = req.params.id
+    return User.findByPk(id)
+      .then(user => {
+        res.render('edit', { user: user.toJSON() })
+      })
   },
 
   putUser: (req, res) => {
-    res.redirect(`/users/${req.user.id}`)
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    }
+    const { file } = req
+    if (file) {
+      fs.readFile(file.path, (err, data) => {
+        if (err) console.log('Error: ', err)
+        fs.writeFile(`upload/${file.originalname}`, data, () => {
+          return User.findByPk(req.params.id)
+            .then((user) => {
+              user.update({
+                name: req.body.name,
+                email: req.body.email,
+                image: file ? `/upload/${file.originalname}` : user.image
+              }).then((restaurant) => {
+                req.flash('success_messages', '使用者資料編輯成功')
+                res.redirect(`/users/${req.params.id}`)
+              })
+            })
+        })
+      })
+    } else {
+      return User.findByPk(req.params.id)
+        .then((user) => {
+          user.update({
+            name: req.body.name,
+            email: req.body.email,
+            image: user.image
+          }).then((user) => {
+            req.flash('success_messages', '使用者資料編輯成功')
+            res.redirect(`/users/${req.params.id}`)
+          })
+        })
+    }
   }
 }
 module.exports = userController

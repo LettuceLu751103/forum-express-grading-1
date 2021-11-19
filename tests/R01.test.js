@@ -6,11 +6,9 @@ const app = require('../app')
 const { createModelMock, createControllerProxy, mockRequest, mockResponse } = require('../helpers/unitTestHelpers');
 
 describe('# R01', () => {
-<<<<<<< HEAD:tests/R01.test.js
+
   describe('登入測試: POST /signin', function () {
-=======
-  describe('登入測試: POST /signin', function(){
->>>>>>> upstream/R02-test:tests/A17.test.js
+
     // 以下測試會發出請求，測試資料庫內是否有作業指定的使用者資料
     // 測試資料的來源是真實的資料庫
     it('#1 密碼錯誤', function (done) {
@@ -73,6 +71,7 @@ describe('# R01', () => {
         // 測試作業指定的 adminController.getUsers 函式
         await this.adminController.getUsers(req, res)
 
+        console.log(res.render.getCall(0))
         // getUser 執行完畢後，應呼叫 res.render
         // res.render 的第 2 個參數應是 users
         // 根據測試資料，users 中的第 1 筆資料，name 屬性值應該要是 'admin'
