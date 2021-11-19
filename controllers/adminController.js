@@ -156,7 +156,7 @@ const adminController = {
   },
 
   getUsers: (req, res) => {
-    return User.findAll({ raw: true })
+    return User.findAll({ raw: true, nest: true })
       .then(users => {
         console.log("1234")
         console.log(users[0])
