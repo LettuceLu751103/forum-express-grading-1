@@ -7,7 +7,7 @@ const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 const helpers = require('../_helpers')
 const categoryController = require('../controllers/categoryController.js')
-
+const commentController = require('../controllers/commentController')
 
 module.exports = (app) => {
   const authenticated = (req, res, next) => {
@@ -81,4 +81,8 @@ module.exports = (app) => {
   app.get('/', authenticated, restController.getRestaurants)
 
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+
+
+  // comment related
+  app.post('/comments', authenticated, commentController.postComment)
 }
