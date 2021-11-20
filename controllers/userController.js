@@ -2,8 +2,8 @@ const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
 const fs = require('fs')
-
-
+const Comment = db.Comment
+const Restaurant = db.Restaurant
 
 const userController = {
 
@@ -55,7 +55,17 @@ const userController = {
     return User.findByPk(id)
       .then(user => {
         // console.log(user.toJSON())
-        return res.render('profile', { user: user.toJSON() })
+        Comment.findAll({
+          raw: true,
+          nest: true,
+          where: {
+            userId: user.id
+          },
+          include: [Restaurant]
+        }).then(comment => {
+          return res.render('profile', { user: user.toJSON(), comment: comment })
+        })
+
       })
 
   },
