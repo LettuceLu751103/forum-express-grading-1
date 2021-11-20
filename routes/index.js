@@ -80,6 +80,8 @@ module.exports = (app) => {
   //如果使用者訪問首頁，就導向 /restaurants 的頁面
   app.get('/', authenticated, restController.getRestaurants)
 
+  app.get('/restaurants/feeds', authenticated, restController.getFeeds)
+
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
 
@@ -96,6 +98,7 @@ module.exports = (app) => {
   app.get('/users/:id/edit', authenticated, userController.editUser)
 
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+
 
 
 
