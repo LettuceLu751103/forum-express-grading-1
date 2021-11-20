@@ -57,7 +57,7 @@ const restController = {
   },
 
   getRestaurant: (req, res) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     Restaurant.findByPk(
       req.params.id,
       {
@@ -68,7 +68,7 @@ const restController = {
       }
     )
       .then(restaurant => {
-        console.log(restaurant.toJSON())
+        // console.log(restaurant.toJSON())
         return res.render('restaurant', { restaurant: restaurant.toJSON() })
       })
   },
@@ -94,6 +94,23 @@ const restController = {
       .then(([restaurants, comments]) => {
         return res.render('feeds', { restaurants: restaurants, comments: comments })
       })
+  },
+
+  getDashboard: (req, res) => {
+
+    Restaurant.findByPk(
+      req.params.id, {
+      include: [
+        Category,
+        { model: Comment }
+      ]
+    })
+      .then(restaurant => {
+        // console.log(restaurant.toJSON().Comments)
+        res.render('dashboard', { restaurant: restaurant.toJSON() })
+      })
+
+
   }
 
 }

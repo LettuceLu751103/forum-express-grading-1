@@ -82,6 +82,8 @@ module.exports = (app) => {
 
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
 
+  app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
+
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
 
