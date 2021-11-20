@@ -4,6 +4,8 @@ const User = db.User
 const fs = require('fs')
 const Comment = db.Comment
 const Restaurant = db.Restaurant
+const Favorite = db.Favorite
+
 
 const userController = {
 
