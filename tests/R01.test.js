@@ -68,10 +68,10 @@ describe('# R01', () => {
         const req = mockRequest() // 對 GET /admin/users 發出請求
         const res = mockResponse()
 
+
         // 測試作業指定的 adminController.getUsers 函式
         await this.adminController.getUsers(req, res)
 
-        console.log(res.render.getCall(0))
         // getUser 執行完畢後，應呼叫 res.render
         // res.render 的第 2 個參數應是 users
         // 根據測試資料，users 中的第 1 筆資料，name 屬性值應該要是 'admin'

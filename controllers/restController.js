@@ -3,7 +3,8 @@ const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
 const User = db.User
-
+const Favorite = db.Favorite
+const Like = db.Like
 
 const pageLimit = 10
 
@@ -36,7 +37,10 @@ const restController = {
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
         categoryName: r.Category.name,
-        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)
+
+        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),
+        isLiked: req.user.LikedRestaurants.map(d => d.id).includes(r.id)
+
       }))
 
       Category.findAll({
@@ -65,17 +69,23 @@ const restController = {
         include: [
           Category,
           { model: Comment, include: [User] },
-          { model: User, as: 'FavoritedUsers' }
+
+          { model: User, as: 'FavoritedUsers' },
+          { model: User, as: 'LikedUsers' },
+
         ]
       }
     )
       .then(restaurant => {
         // console.log(restaurant.toJSON())
         const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
+
+        const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
         const count = restaurant.viewCounts + 1
         restaurant.update({ viewCounts: count })
           .then(() => {
-            return res.render('restaurant', { restaurant: restaurant.toJSON(), isFavorited: isFavorited })
+            return res.render('restaurant', { restaurant: restaurant.toJSON(), isFavorited: isFavorited, isLiked: isLiked })
+
           })
 
       })
