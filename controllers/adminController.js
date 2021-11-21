@@ -3,9 +3,13 @@ const Restaurant = db.Restaurant
 const User = db.User
 const fs = require('fs')
 const imgur = require('imgur-node-api')
-const { userInfo } = require('os')
+// const { userInfo } = require('os')
 const IMGUR_CLIENT_ID = '0f45c06002b9fdc'
 const Category = db.Category
+const helpers = require('../_helpers')
+
+
+
 
 const adminController = {
   getRestaurants: (req, res) => {
@@ -156,18 +160,18 @@ const adminController = {
   },
 
   getUsers: (req, res) => {
-    return User.findAll({ raw: true, nest: true })
+    return User.findAll({ raw: true })
       .then(users => {
-        res.render('admin/users', { users })
+        return res.render('admin/users', { users })
       })
   },
 
   toggleAdmin: (req, res) => {
     return User.findByPk(req.params.id)
       .then(user => {
-        console.log(user.name)
+
         const { isAdmin, email } = user.toJSON()
-        console.log(isAdmin)
+
         if (email === 'root@example.com') {
           req.flash('error_messages', '禁止變更管理者權限')
           return res.redirect('back')

@@ -2,11 +2,12 @@ const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
 const fs = require('fs')
+// const { helpers } = require('faker')
 const Comment = db.Comment
 const Restaurant = db.Restaurant
 const Like = db.Like
 const Favorite = db.Favorite
-
+const helpers = require('../_helpers')
 const userController = {
 
   signUpPage: (req, res) => {
@@ -53,22 +54,15 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    const id = req.params.id
-    return User.findByPk(id)
-      .then(user => {
-        // console.log(user.toJSON())
-        Comment.findAll({
-          raw: true,
-          nest: true,
-          where: {
-            userId: user.id
-          },
-          include: [Restaurant]
-        }).then(comment => {
-          return res.render('profile', { user: user.toJSON(), comment: comment })
-        })
+    return User.findByPk(req.params.id, {
+      include: [
+        { model: Comment, include: [Restaurant] }
+      ]
+    }).then((user) => {
+      const comment = user.toJSON().Comments
+      res.render('profile', { user: user.toJSON(), comment })
+    })
 
-      })
 
   },
 
@@ -144,18 +138,20 @@ const userController = {
 
 
   addLike: (req, res) => {
+
     return Like.create({
-      UserId: req.user.id,
+      UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     })
-      .then((restaurant) => {
+      .then((like) => {
+
         return res.redirect('back')
       })
   },
   removeLike: (req, res) => {
     return Like.findOne({
       where: {
-        UserId: req.user.id,
+        UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
     })
