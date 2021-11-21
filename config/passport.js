@@ -40,9 +40,7 @@ passport.deserializeUser((id, cb) => {
         { model: User, as: 'Followings' }
       ]
     }).then(user => {
-
-      user = user.toJSON() // 此處與影片示範不同
-      console.log(user)
+      user = user.toJSON()
       return cb(null, user)
     })
 })

@@ -8,6 +8,8 @@ const Restaurant = db.Restaurant
 const Like = db.Like
 const Favorite = db.Favorite
 const helpers = require('../_helpers')
+const Followship = db.Followship
+
 
 const userController = {
 
@@ -60,6 +62,7 @@ const userController = {
         { model: Comment, include: [Restaurant] }
       ]
     }).then((user) => {
+      console.log(user)
       const comment = user.toJSON().Comments
       res.render('profile', { user: user.toJSON(), comment })
     })
@@ -159,6 +162,49 @@ const userController = {
       .then((like) => {
         return res.redirect('back')
       })
+  },
+
+  getTopUser: (req, res) => {
+    return User.findAll({
+      include: [
+        { model: User, as: 'Followers' }
+      ]
+    }).then(users => {
+      users = users.map(user => ({
+        ...user.dataValues,
+        FollowerCount: user.Followers.length,
+        isFollowed: req.user.Followings.map(d => d.id).includes(user.id)
+      }))
+
+      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+      return res.render('topUser', { users: users })
+    })
+  },
+
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    })
+      .then((followship) => {
+        return res.redirect('back')
+      })
+  },
+
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    })
+      .then((followship) => {
+        followship.destroy()
+          .then((followship) => {
+            return res.redirect('back')
+          })
+      })
   }
+
 }
 module.exports = userController

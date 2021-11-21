@@ -19,7 +19,6 @@ const adminController = {
       include: [Category]
     })
       .then(restaurants => {
-        // console.log(restaurants)
         return res.render('admin/restaurants', { restaurants: restaurants })
       })
   },
@@ -29,7 +28,6 @@ const adminController = {
       raw: true,
       nest: true
     }).then(categories => {
-      console.log(categories)
       return res.render('admin/create', { categories: categories })
     })
 
@@ -79,13 +77,11 @@ const adminController = {
       include: [Category]
     })
       .then(restaurant => {
-        // console.log(restaurant.toJSON())
         res.render('admin/restaurant', { restaurant: restaurant.toJSON() })
       })
   },
 
   editRestaurant: (req, res) => {
-    console.log(req.params.id)
     Category.findAll({
       raw: true,
       nest: true

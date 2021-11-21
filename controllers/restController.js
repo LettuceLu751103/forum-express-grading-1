@@ -32,7 +32,6 @@ const restController = {
       const totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
       const prev = page - 1 ? 1 : page - 1
       const next = page + 1 ? pages : page + 1
-      // console.log(restaurants)
       const data = result.rows.map(r => ({
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
@@ -62,14 +61,12 @@ const restController = {
   },
 
   getRestaurant: (req, res) => {
-    // console.log(req.params.id)
     Restaurant.findByPk(
       req.params.id,
       {
         include: [
           Category,
           { model: Comment, include: [User] },
-
           { model: User, as: 'FavoritedUsers' },
           { model: User, as: 'LikedUsers' },
 
@@ -124,7 +121,6 @@ const restController = {
       ]
     })
       .then(restaurant => {
-        // console.log(restaurant.toJSON())
         res.render('dashboard', { restaurant: restaurant.toJSON() })
       })
 
