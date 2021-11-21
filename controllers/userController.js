@@ -149,17 +149,14 @@ const userController = {
       })
   },
   removeLike: (req, res) => {
-    return Like.findOne({
+    return Like.destroy({
       where: {
         UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
     })
-      .then((favorite) => {
-        favorite.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
+      .then((like) => {
+        return res.redirect('back')
       })
   }
 }

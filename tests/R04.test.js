@@ -89,6 +89,7 @@ describe('# R04: Like / Unlike', function () {
       // 將模擬的 Like table 內的資料全數撈出
       const likes = await this.likeMock.findAll()
       // addLike 執行完畢後，Like table 應會從有 1 筆資料 -> 變成空的
+      // console.log(likes)
       likes.should.have.lengthOf(0)
     })
 
