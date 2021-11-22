@@ -136,7 +136,7 @@ const restController = {
       ]
     }).then(restaurants => {
       // console.log(restaurants)
-      const data = restaurants.map(restaurant => ({
+      restaurants = restaurants.map(restaurant => ({
         ...restaurant.dataValues,
         description: restaurant.description.substring(0, 30),
         favoritedCount: restaurant.dataValues.FavoritedUsers.length,
@@ -146,10 +146,10 @@ const restController = {
             (data) => data.id === restaurant.dataValues.id
           )
       }))
-      datas = data
+      restaurants = restaurants
         .sort((a, b) => b.favoritedCount - a.favoritedCount)
         .slice(0, 10)
-      return res.render('topRestaurant', { restaurants: datas })
+      return res.render('topRestaurant', { restaurants: restaurants })
     })
 
   }

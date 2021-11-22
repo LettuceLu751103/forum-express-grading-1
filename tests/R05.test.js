@@ -55,8 +55,8 @@ describe('# R05: TOP 10 人氣餐廳 ', function () {
           // 回應中應包含字串'Top 10 人氣餐廳'
           // 若請求路徑正確，controller 執行後，會呼叫 res.render
           // res.render 回傳的 view 樣板裡應包含字串'Top 10 人氣餐廳'
-          res.text.should.include('Top 10 人氣餐廳') 
-          done()
+          res.text.should.include('Top 10 人氣餐廳')
+          done();
         })
     })
 
@@ -92,14 +92,14 @@ describe('# R05: TOP 10 人氣餐廳 ', function () {
         this.favoriteMock = createModelMock('Favorite', null, mockRestaurantData, 'FavoritedUsers')
 
         // 連向模擬的 Favorite table
-        this.userController = createControllerProxy('../controllers/userController', {Favorite: this.favoriteMock})
+        this.userController = createControllerProxy('../controllers/userController', { Favorite: this.favoriteMock })
       })
 
       it(' POST favorite ', async () => {
         // 模擬 request & response
         // 對 POST /favorite/2 發出請求，夾帶 user.favoritedRestaurants
         const req = mockRequest({
-          user: { favoritedRestaurants: [] }, 
+          user: { favoritedRestaurants: [] },
           params: { restaurantId: 2 },
         })
         const res = mockResponse()
@@ -109,7 +109,7 @@ describe('# R05: TOP 10 人氣餐廳 ', function () {
 
         // 取得餐廳排序資料
         await this.restController.getTopRestaurant(req, res)
-        
+
         // addFavorite 執行完畢後，應呼叫 res.render
         // res.render 的第 2 個參數要包含 restaurants
         // restaurant 當中的第 2 筆資料 favoritedCount 屬性的值應是 1 (被 1 個使用者加入最愛了)
