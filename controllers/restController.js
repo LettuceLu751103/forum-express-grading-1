@@ -125,6 +125,18 @@ const restController = {
       })
 
 
+  },
+
+  getTopRestaurant: (req, res) => {
+
+    Restaurant.findAll({
+      raw: true,
+      nest: true
+    }).then(restaurants => {
+      console.log(restaurants)
+      return res.render('topRestaurant', { restaurants: restaurants })
+    })
+
   }
 
 }

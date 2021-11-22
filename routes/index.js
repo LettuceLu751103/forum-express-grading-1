@@ -80,7 +80,7 @@ module.exports = (app) => {
   //如果使用者訪問首頁，就導向 /restaurants 的頁面
   app.get('/', authenticated, restController.getRestaurants)
 
-  
+  app.get('/restaurants/top', authenticated, restController.getTopRestaurant)
 
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
 
