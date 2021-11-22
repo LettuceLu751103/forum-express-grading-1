@@ -62,7 +62,6 @@ const userController = {
         { model: Comment, include: [Restaurant] }
       ]
     }).then((user) => {
-      console.log(user)
       const comment = user.toJSON().Comments
       res.render('profile', { user: user.toJSON(), comment })
     })
@@ -165,6 +164,7 @@ const userController = {
   },
 
   getTopUser: (req, res) => {
+
     return User.findAll({
       include: [
         { model: User, as: 'Followers' }
@@ -177,6 +177,7 @@ const userController = {
       }))
 
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+
       return res.render('topUser', { users: users })
     })
   },

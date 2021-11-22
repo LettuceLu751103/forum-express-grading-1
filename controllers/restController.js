@@ -5,6 +5,7 @@ const Comment = db.Comment
 const User = db.User
 const Favorite = db.Favorite
 const Like = db.Like
+const tools = require('../_helpers')
 
 const pageLimit = 10
 
@@ -129,12 +130,26 @@ const restController = {
 
   getTopRestaurant: (req, res) => {
 
-    Restaurant.findAll({
-      raw: true,
-      nest: true
+    return Restaurant.findAll({
+      include: [
+        { model: User, as: 'FavoritedUsers' }
+      ]
     }).then(restaurants => {
-      console.log(restaurants)
-      return res.render('topRestaurant', { restaurants: restaurants })
+      // console.log(restaurants)
+      const data = restaurants.map(restaurant => ({
+        ...restaurant.dataValues,
+        description: restaurant.description.substring(0, 30),
+        favoritedCount: restaurant.dataValues.FavoritedUsers.length,
+        isFavorited: tools
+          .getUser(req)
+          .FavoritedRestaurants.filter(
+            (data) => data.id === restaurant.dataValues.id
+          )
+      }))
+      datas = data
+        .sort((a, b) => b.favoritedCount - a.favoritedCount)
+        .slice(0, 10)
+      return res.render('topRestaurant', { restaurants: datas })
     })
 
   }
