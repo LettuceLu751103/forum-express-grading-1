@@ -68,12 +68,9 @@ const adminController = {
     }
   },
   getRestaurant: (req, res) => {
-    Restaurant.findByPk(req.params.id, {
-      include: [Category]
+    adminService.getRestaurant(req, res, data => {
+      res.render('admin/restaurant', data)
     })
-      .then(restaurant => {
-        res.render('admin/restaurant', { restaurant: restaurant.toJSON() })
-      })
   },
 
   editRestaurant: (req, res) => {

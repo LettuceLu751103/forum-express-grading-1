@@ -8,7 +8,15 @@ const adminController = {
         adminService.getRestaurants(req, res, data => {
             return res.json(data)
         })
+    },
+
+    getRestaurant: (req, res, data) => {
+        adminService.getRestaurant(req, res, data => {
+            return res.json(data)
+        })
     }
+
+
 }
 
 
