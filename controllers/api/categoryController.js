@@ -8,8 +8,6 @@ const categoryController = {
         categoryService.getCategories(req, res, data => {
             if (req.params.id) {
                 return res.json(data)
-            } else {
-                return res.json(data)
             }
         })
     },
