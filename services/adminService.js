@@ -9,6 +9,8 @@ const adminService = {
     getRestaurants: (req, res, callback) => {
         return Restaurant.findAll({ raw: true, nest: true, include: [Category] }).then(restaurants => {
             callback({ restaurants: restaurants })
+        }).catch(error => {
+            console.log(error)
         })
     },
 
@@ -17,6 +19,8 @@ const adminService = {
             include: [Category]
         }).then(restaurant => {
             callback({ restaurant: restaurant.toJSON() })
+        }).catch(error => {
+            console.log(error)
         })
     },
 
@@ -39,6 +43,8 @@ const adminService = {
                     CategoryId: req.body.categoryId
                 }).then((restaurant) => {
                     callback({ status: 'success', message: 'restaurant was successfully created' })
+                }).catch(error => {
+                    console.log(error)
                 })
             })
         } else {
@@ -69,6 +75,8 @@ const adminService = {
                 } else {
                     callback({ status: 'failure', message: 'fail' })
                 }
+            }).catch(error => {
+                console.log(error)
             })
     },
 }
