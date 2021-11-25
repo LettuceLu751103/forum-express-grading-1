@@ -24,9 +24,9 @@ const adminService = {
         if (!req.body.name) {
             return callback({ status: 'error', message: "name didn't exist" })
         }
+
         const { file } = req // equal to const file = req.file
         if (file) {
-            console.log('進到有圖片區域')
             imgur.setClientID(IMGUR_CLIENT_ID)
             imgur.upload(file.path, (err, img) => {
                 return Restaurant.create({
@@ -42,18 +42,17 @@ const adminService = {
                 })
             })
         } else {
-            console.log('進到沒有圖片區域')
-
             return Restaurant.create({
                 name: req.body.name,
                 tel: req.body.tel,
                 address: req.body.address,
                 opening_hours: req.body.opening_hours,
                 description: req.body.description,
-                CategoryId: req.body.categoryId
+                CategoryId: Number(req.body.categoryId)
             }).then((restaurant) => {
-                console.log('準備將存入數據庫的資料回調給adminService')
                 callback({ status: 'success', message: 'restaurant was successfully created' })
+            }).catch(error => {
+                console.log(error)
             })
         }
     },

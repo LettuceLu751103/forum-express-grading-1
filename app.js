@@ -15,7 +15,7 @@ const multer = require('multer')
 const bodyParser = require('body-parser')
 const upload = multer({ dest: 'temp/' })
 
-app.use(express.urlencoded({ extended: true }))
+// app.use(express.urlencoded({ extended: true }))
 
 app.engine('handlebars', handlebars({
   defaultLayout: 'main',
