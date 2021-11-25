@@ -12,6 +12,7 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const multer = require('multer')
+const bodyParser = require('body-parser')
 const upload = multer({ dest: 'temp/' })
 
 app.use(express.urlencoded({ extended: true }))
@@ -21,6 +22,8 @@ app.engine('handlebars', handlebars({
   helpers: require('./config/handlebars-helpers')
 }))
 app.set('view engine', 'handlebars') // 設定使用 Handlebars 做為樣板引擎
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use('/upload', express.static(__dirname + '/upload'))
 
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
