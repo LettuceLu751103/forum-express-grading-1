@@ -16,6 +16,22 @@ const categoryService = {
                 callback({ categories: categories })
             }
         })
+    },
+
+    deleteCategory: (req, res, callback) => {
+        console.log('成功調用 api')
+        return Category.findByPk(req.params.id)
+            .then((category) => {
+                category.destroy()
+                    .then((category) => {
+                        // res.redirect('/admin/categories')
+                        callback({ status: 'success', message: 'category was successfully deleted' })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        callback({ status: 'error', message: 'category was not successfully deleted' })
+                    })
+            })
     }
 }
 

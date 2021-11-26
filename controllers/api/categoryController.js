@@ -11,6 +11,12 @@ const categoryController = {
             }
         })
     },
+
+    deleteCategory: (req, res) => {
+        categoryService.deleteCategory(req, res, (data) => {
+            return res.json(data)
+        })
+    },
 }
 
 module.exports = categoryController
